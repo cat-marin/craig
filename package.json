@@ -1,0 +1,22 @@
+{
+  "name": "craig",
+  "version": "1.0.0",
+  "description": "nixfits discord bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmarin217/craig.git"
+  },
+  "author": "nixfits",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jmarin217/craig/issues"
+  },
+  "homepage": "https://github.com/jmarin217/craig#readme",
+  "dependencies": {
+    "discord.js": "^11.5.1"
+  }
+}
