@@ -7,4 +7,6 @@ client.on('ready', () => {
   console.log(`https://discordapp.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=0&scope=bot`);
 });
 
+client.on('error', console.error); //lol this is kind of necessary
+
 client.login(`${token.token}`);
