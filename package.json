@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/jmarin217/craig#readme",
   "dependencies": {
-    "discord.js": "^11.5.1"
+    "discord.js": "^11.5.1",
+    "djs-commands": "^1.2.2"
   }
 }
