@@ -1,4 +1,8 @@
 {
     "activity": "on the Nixfits",
-    "prefix": "!"
+    "prefix": "!",
+    "muteRoleID": "623752337734762496",
+    "muteRoleName": "muted",
+    "adminRoleName": "Operator",
+    "modRoleName": "Half-Operator"
 }
