@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const Discord = require('discord.js');
 const client = new Discord.Client();
 var token = require('./token.json'); //token file, you need this to bring the bot online
