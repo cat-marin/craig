@@ -9,9 +9,9 @@ module.exports = class mute {
 
     async run(client, message, args) {
         let muteRole = message.guild.roles.get(config.muteRoleID);
-        let member = message.mentions.members.first();
+        let member = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
         if(message.member.roles.some(r=>[`${config.adminRoleName}`, `${config.modRoleName}`].includes(r.name)) ) {
-            member.addRole(muteRole).catch(console.error);
+            await(member.addRole(muteRole).catch(console.error));
             message.reply(`muted ${member}`);
         } else {
             message.channel.send("You can't do that");
