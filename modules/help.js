@@ -13,7 +13,7 @@ module.exports = class help {
     const notFound = new Discord.RichEmbed()
     .setColor('#D00B00')
     .setTitle('Help')
-    .addField(`${com}`, 'Command not found.');
+    .addField(`${com}`, 'Command not found. ');
     const helpEmbed = new Discord.RichEmbed()
       .setColor('#D00B00')
       .setTitle('Help')
