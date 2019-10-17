@@ -10,7 +10,7 @@ module.exports = class clear {
 		
 	run(bot, message, args) {
 		let amount = args[1];
-                 if(!message.member.hasPermission("MANAGE_MESSAGES")) return msg.channel.send("you can't do that");
+                 if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.channel.send("You can't do that.");
                  if(message.member.hasPermission("MANAGE_MESSAGES") === true){
                          async function clear() {
                                  message.delete();
