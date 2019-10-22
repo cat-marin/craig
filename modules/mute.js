@@ -14,7 +14,7 @@ module.exports = class mute {
             await(member.addRole(muteRole).catch(console.error));
             message.reply(`muted ${member}`);
         } else {
-            message.channel.send("You can't do that");
+            message.channel.send("You can't do that ");
         }
     }
 }
