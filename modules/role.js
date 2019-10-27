@@ -13,11 +13,13 @@ module.exports = class role {
         let roleObject = args[2];
         let roleName = message.guild.roles.find(role => role.name === `${roleObject}`);
         if(action === undefined) return message.channel.send("You must supply an action (add/remove)");
-        if(roleObject === undefined) return message.channel.send("You must supply a role name.");
+//        if(roleObject === undefined) return message.channel.send("You must supply a role name.");
         
-        if(!roleFile[roleObject]) return message.channel.send("Role not found.");
+//        if(!roleFile[roleObject]) return message.channel.send("Role not found.");
 
         if(action === "add") {
+	    if(roleObject === undefined) return message.channel.send("You must supply a role name.");
+	    if(!roleFile[roleObject]) return message.channel.send("Role not found.");
             if(message.member.roles.find(role => role.name === `${roleObject}`)) {
                 message.channel.send(`You are already in ${roleObject}.`);
             }else {
@@ -29,6 +31,11 @@ module.exports = class role {
         if(action === "remove") {
             message.member.removeRole(roleName).catch(console.error);
             message.channel.send(`You were removed from ${roleObject}.`);
+
         }
+	
+	if(action === "list") {
+	    message.channel.send(`${roleFile.list}`);
+	}
     }
 }
