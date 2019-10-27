@@ -16,6 +16,11 @@ client.on('ready', () => {
   console.log(`Set activity to "${config.activity}"`);
 });
 
+// join message
+client.on("guildMemberAdd" , member => {
+    member.guild.channels.get(config.joinChannelID).send(`Everyone welcome <@${member.id}> to the server!`);
+});
+
 //command handling start
 client.on("message", (message) => {
   if(message.channel.type === 'dm') return;
