@@ -29,9 +29,10 @@ module.exports = class role {
         }
         
         if(action === "remove") {
+        if(roleObject === undefined) return message.channel.send("You must supply a role name.");
+        if(!roleFile[roleObject]) return message.channel.send("Role not found.");
             message.member.removeRole(roleName).catch(console.error);
             message.channel.send(`You were removed from ${roleObject}.`);
-
         }
 	
 	if(action === "list") {
