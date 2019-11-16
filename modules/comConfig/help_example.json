@@ -1,0 +1,8 @@
+{
+    "mute": "Admin Command - Mute a user indefinitely.",
+    "clear": "Admin Command - Tool for clearing spam.",
+    "help": "Calls this help function.",
+    "role": "Add or remove roles.",
+    "vc": "Control the bot in vc.",
+    "doas": "Admin Command - Soon to be a do-all for admin stuff."
+}
