@@ -22,12 +22,21 @@ module.exports = class doas {
                 await(member.addRole(muteRole).catch(console.error));
                 message.channel.send(`Muted ${member}.`);
             }
-            if(action === "ban") {
-                let member = message.mentions.members.first() || message.guild.members.get(args[2]);
-                if(member = undefined) return message.channel.send("Who is being banned?");
-                await member.ban("banned");
-                message.channel.send(`Banned ${member}.`);
+            if(action === "unmute") {
+                let member = message.mentions.members.first() || message.guild.members.get(args[1]);
+                let muteRole = message.guild.roles.get(config.muteRoleID);
+                if(member === undefined) return message.channel.send("Who is being muted?");
+                await(member.removeRole(muteRole).catch(console.error));
+                message.channel.send(`Unmuted ${member}.`);
             }
+// DOES NOT CURRENTLY WORK
+//            if(action === "ban") {
+//                let member = message.mentions.members.first() || message.guild.members.get(args[2]);
+//                if(member = undefined) return message.channel.send("Who is being banned?");
+//                await member.ban("banned");
+//                message.channel.send(`Banned ${member}.`);
+//            }
+// DOES NOT CURRENTLY WORK
         }
     }
 }
