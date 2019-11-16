@@ -1,7 +1,0 @@
-{
-    "mute": "Admin Command - Mute a user indefinitely.",
-    "clear": "Admin Command - Tool for clearing spam.",
-    "help": "Calls this help function.",
-    "role": "Add or remove roles from yourself.",
-    "list": "Mute, Clear, Help, and Role."
-}
