@@ -1,0 +1,9 @@
+{
+    "activity": "Your activity here",
+    "prefix": "!",
+    "muteRoleID": "$muteidhere",
+    "muteRoleName": "muted",
+    "adminRoleName": "Administrator",
+    "modRoleName": "Moderator",
+    "joinChannelID": "$joinidhere"
+}
