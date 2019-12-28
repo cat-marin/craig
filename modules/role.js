@@ -9,7 +9,7 @@ module.exports = class role {
 
   async run(client, message, args) {
     var roleFile = require("./comConfig/role.json");
-    const action = args[1];
+    const action = args[1].toLowerCase();
     const roleObject = args[2];
     const roleName = message.guild.roles.find(
       role => role.name === `${roleObject}`
