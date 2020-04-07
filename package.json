@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/jmarin217/craig#readme",
   "dependencies": {
+    "minimist": ">=0.2.1",
     "discord.js": "^11.5.1",
     "djs-commands": "^1.2.2",
     "eslint-config-prettier": "^6.5.0",
@@ -24,7 +25,7 @@
     "prettier": "^1.18.2"
   },
   "devDependencies": {
-    "eslint": "^6.6.0",
+    "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^10.0.0",
