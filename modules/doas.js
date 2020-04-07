@@ -29,14 +29,15 @@ module.exports = class doas {
                 await(member.removeRole(muteRole).catch(console.error));
                 message.channel.send(`Unmuted ${member}.`);
             }
-// DOES NOT CURRENTLY WORK
-//            if(action === "ban") {
-//                let member = message.mentions.members.first() || message.guild.members.get(args[2]);
-//                if(member = undefined) return message.channel.send("Who is being banned?");
-//                await member.ban("banned");
-//                message.channel.send(`Banned ${member}.`);
-//            }
-// DOES NOT CURRENTLY WORK
+
+            if(action === "ban") {
+                let member = message.mentions.members.first() || message.guild.members.get(args[1]);
+		if(!member) return message.channel.send("Who is being banned?");
+		if(!member.bannable) return message.channel.send("You cannot ban this user.");
+                await message.guild.ban(member);
+                message.channel.send(`Banned ${member}.`);
+            }
+
         }
     }
 }
