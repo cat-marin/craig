@@ -22,7 +22,7 @@ client.on("ready", () => {
 client.on("guildMemberAdd", member => {
   member.guild.channels
     .get(config.joinChannelID)
-    .send(`Everyone welcome <@${member.id}> to the server!`);
+    .send(`Everyone welcome <@${member.id}> to the server! Please read the rules and know that if you're here for support you'll need to use <#624069649469800513>`);
 });
 
 // command handling start
