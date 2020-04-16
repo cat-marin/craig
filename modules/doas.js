@@ -52,7 +52,7 @@ module.exports = class doas {
                 let member = message.mentions.members.first() || message.guild.members.get(args[1]);
 	            if(!member) return message.channel.send("Who is being banned?");
         	    if(!member.bannable) return message.channel.send("You cannot ban this user.");
-                await message.guild.ban(member);
+                await member.ban(reason);
                 message.channel.send(`Banned ${member}.`);
                 embedFunction(action);
             }
