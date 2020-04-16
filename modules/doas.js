@@ -25,7 +25,7 @@ module.exports = class doas {
         if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.channel.send("You can't do that.");
         if(message.member.hasPermission("MANAGE_MESSAGES") === true){
             var action = args[1];
-            const reason = args.slice(3).join(' ');
+            var reason = args.slice(3).join(' ');
             if(action === undefined) {
                 message.channel.send("You must provide an argument.");
                 message.channel.send(message.author.tag);
