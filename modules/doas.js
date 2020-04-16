@@ -1,4 +1,4 @@
-//const Discord = require("discord.js");
+const Discord = require("discord.js");
 const config = require("../config.json");
 
 module.exports = class doas {
@@ -25,7 +25,7 @@ module.exports = class doas {
         if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.channel.send("You can't do that.");
         if(message.member.hasPermission("MANAGE_MESSAGES") === true){
             var action = args[1];
-            var reason = args.slice(3).join(' ');
+            const reason = args.slice(3).join(' ');
             if(action === undefined) {
                 message.channel.send("You must provide an argument.");
                 message.channel.send(message.author.tag);
