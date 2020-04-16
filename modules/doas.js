@@ -28,7 +28,6 @@ module.exports = class doas {
             var reason = args.slice(3).join(' ');
             if(action === undefined) {
                 message.channel.send("You must provide an argument.");
-                message.channel.send(message.author.tag);
             }
             if(action === "mute") {
                 let member = message.mentions.members.first() || message.guild.members.get(args[1]);
