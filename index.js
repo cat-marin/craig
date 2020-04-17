@@ -32,7 +32,7 @@ async function giveInfectionFunction(message) {
     let fort19 = config.infectionRoleID;
     if(message.member.roles.has(fort19)) {
         let chance = Math.random() * 100;
-        if (chance <= 100) {
+        if (chance <= 15) {
             await(message.guild.members.get(pingeeID).addRole(fort19).catch(console.error));
             message.channel.send(`You infected another user!`);
         };
