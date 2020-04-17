@@ -10,30 +10,29 @@ const CH = new CommandHandler({
 });
 
 async function getInfectedFunction(message) {
+    let author = message.author.id;
     let member = message.mentions.users.first();
-    let memberID = member.id;
     if(!member) return;
     let fort19 = config.infectionRoleID;
-    if (message.guild.members.get(memberID).roles.has(fort19)) {
+    if (message.guild.members.get(author).roles.has(fort19)) return;
+    if (message.guild.members.get(member.id).roles.has(fort19)) {
         let chance = Math.random() * 100;
         if (chance <= 5) {
-              await(message.member.addRole(fort19).catch(console.error));
+              await(message.member.addRole(fort19));
               message.channel.send(`This user is now infected!`);
         };
     }
 }
 
 async function giveInfectionFunction(message) {
-    let member = message.author;
-    let memberID = member.id;
     let pingee = message.mentions.users.first();
-    let pingeeID = pingee.id;
     if(!pingee) return;
     let fort19 = config.infectionRoleID;
+    if(message.guild.members.get(pingee.id).roles.has(fort19)) return;
     if(message.member.roles.has(fort19)) {
         let chance = Math.random() * 100;
         if (chance <= 15) {
-            await(message.guild.members.get(pingeeID).addRole(fort19).catch(console.error));
+            await(message.guild.members.get(pingee.id).addRole(fort19));
             message.channel.send(`You infected another user!`);
         };
     }
