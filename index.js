@@ -9,7 +9,7 @@ const CH = new CommandHandler({
   prefix: [`${config.prefix}`]
 });
 
-async function infectFunction(message) {
+async function getInfectedFunction(message) {
     let member = message.mentions.users.first();
     let memberID = member.id;
     if(!member) return;
@@ -18,7 +18,23 @@ async function infectFunction(message) {
         let chance = Math.random() * 100;
         if (chance <= 5) {
               await(message.member.addRole(fort19).catch(console.error));
-            message.channel.send(`This user is now infected!`);
+              message.channel.send(`This user is now infected!`);
+        };
+    }
+}
+
+async function giveInfectionFunction(message) {
+    let member = message.author;
+    let memberID = member.id;
+    let pingee = message.mentions.users.first();
+    let pingeeID = pingee.id;
+    if(!pingee) return;
+    let fort19 = config.infectionRoleID;
+    if(message.member.roles.has(fort19)) {
+        let chance = Math.random() * 100;
+        if (chance <= 100) {
+            await(message.guild.members.get(pingeeID).addRole(fort19).catch(console.error));
+            message.channel.send(`You infected another user!`);
         };
     }
 }
@@ -43,8 +59,8 @@ client.on("guildMemberAdd", member => {
 client.on("message", message => {
   if (message.channel.type === "dm") return;
   if (message.author.type === "bot") return;
-  
-    infectFunction(message);
+    giveInfectionFunction(message); 
+    getInfectedFunction(message);
   const args = message.content.split(" ");
   const command = args[0];
   const cmd = CH.getCommand(command);
