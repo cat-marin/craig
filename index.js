@@ -9,6 +9,20 @@ const CH = new CommandHandler({
   prefix: [`${config.prefix}`]
 });
 
+async function infectFunction(message) {
+    let member = message.mentions.users.first();
+    let memberID = member.id;
+    if(!member) return;
+    let fort19 = config.infectionRoleID;
+    if (message.guild.members.get(memberID).roles.has(fort19)) {
+        let chance = Math.random() * 100;
+        if (chance <= 5) {
+              await(message.member.addRole(fort19).catch(console.error));
+            message.channel.send(`This user is now infected!`);
+        };
+    }
+}
+
 client.on("ready", () => {
   console.log(`logged in as ${client.user.tag}!`);
   console.log(
@@ -29,6 +43,8 @@ client.on("guildMemberAdd", member => {
 client.on("message", message => {
   if (message.channel.type === "dm") return;
   if (message.author.type === "bot") return;
+  
+    infectFunction(message);
   const args = message.content.split(" ");
   const command = args[0];
   const cmd = CH.getCommand(command);
