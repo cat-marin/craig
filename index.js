@@ -19,7 +19,7 @@ async function getInfectedFunction(message) {
     if (message.guild.members.cache.get(author).roles.cache.get(infection)) return;
     if (message.guild.members.cache.get(member.id).roles.cache.get(infection)) {
         let chance = Math.random() * 100;
-        if (chance <= 100) {
+        if (chance <= 10) {
               await(message.guild.members.cache.get(author).roles.add(infection));
               message.channel.send(`<@${message.author.id}> infected someone!`);
         };
@@ -36,7 +36,7 @@ async function giveInfectionFunction(message) {
     if(message.guild.members.cache.get(pingee.id).roles.cache.get(infection)) return;
     if(message.member.roles.cache.get(infection)) {
         let chance = Math.random() * 100;
-        if (chance <= 100) {
+        if (chance <= 15) {
             await(message.guild.members.cache.get(pingee.id).roles.add(infection));
             message.channel.send(`<@${message.author.id}> infected someone!`);
         };
@@ -54,7 +54,7 @@ client.on("ready", () => {
 
 // join message
 client.on("guildMemberAdd", member => {
-  member.guild.channels
+  member.guild.channels.cache
     .get(config.joinChannelID)
     .send(`Everyone welcome <@${member.id}> to the server! Please read the rules and know that if you're here for support you'll need to use <#624069649469800513>`);
 });
