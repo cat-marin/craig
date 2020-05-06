@@ -11,7 +11,7 @@ module.exports = class role {
     var roleFile = require("./comConfig/role.json");
     const action = args[1];
     const roleObject = args[2];
-    const roleName = message.guild.roles.find(
+    const roleName = message.guild.roles.cache.find(
       role => role.name === `${roleObject}`
     );
     if (action === undefined)
@@ -24,10 +24,10 @@ module.exports = class role {
       if (roleObject === undefined)
         return message.channel.send("You must supply a role name.");
       if (!roleFile[roleObject]) return message.channel.send("Role not found.");
-      if (message.member.roles.find(role => role.name === `${roleObject}`)) {
+      if (message.member.roles.cache.find(role => role.name === `${roleObject}`)) {
         message.channel.send(`You are already in ${roleObject}.`);
       } else {
-        message.member.addRole(roleName).catch(console.error);
+        message.member.roles.add(roleName).catch(console.error);
         message.channel.send(`You were added to ${roleObject}.`);
       }
     }
@@ -36,7 +36,7 @@ module.exports = class role {
       if (roleObject === undefined)
         return message.channel.send("You must supply a role name.");
       if (!roleFile[roleObject]) return message.channel.send("Role not found.");
-      message.member.removeRole(roleName).catch(console.error);
+      message.member.roles.remove(roleName).catch(console.error);
       message.channel.send(`You were removed from ${roleObject}.`);
     }
 
