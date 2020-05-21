@@ -6,6 +6,5 @@
     "adminRoleName": "Administrator",
     "modRoleName": "Moderator",
     "joinChannelID": "$joinidhere",
-    "logChannelID": "$logidhere",
-    "infectionRoleID": ""
+    "logChannelID": "$logidhere"
 }

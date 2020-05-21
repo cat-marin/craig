@@ -9,40 +9,6 @@ const CH = new CommandHandler({
   prefix: [`${config.prefix}`]
 });
 
-async function getInfectedFunction(message) {
-    if (message.channel.type === "dm") return;
-    if (message.author.type === "bot") return;
-    let author = message.author.id;
-    let member = message.mentions.users.first();
-    if(!member) return;
-    let infection = config.infectionRoleID;
-    if (message.guild.members.cache.get(author).roles.cache.get(infection)) return;
-    if (message.guild.members.cache.get(member.id).roles.cache.get(infection)) {
-        let chance = Math.random() * 100;
-        if (chance <= 10) {
-              await(message.guild.members.cache.get(author).roles.add(infection));
-              message.channel.send(`<@${message.author.id}> infected someone!`);
-        };
-    }
-}
-
-async function giveInfectionFunction(message) {
-    if (message.channel.type === "dm") return;
-    if (message.author.type === "bot") return;
-
-    let pingee = message.mentions.users.first();
-    if(!pingee) return;
-    let infection = config.infectionRoleID;
-    if(message.guild.members.cache.get(pingee.id).roles.cache.get(infection)) return;
-    if(message.member.roles.cache.get(infection)) {
-        let chance = Math.random() * 100;
-        if (chance <= 15) {
-            await(message.guild.members.cache.get(pingee.id).roles.add(infection));
-            message.channel.send(`<@${message.author.id}> infected someone!`);
-        };
-    }
-}
-
 client.on("ready", () => {
   console.log(`logged in as ${client.user.tag}!`);
   console.log(
@@ -63,8 +29,6 @@ client.on("guildMemberAdd", member => {
 client.on("message", message => {
   if (message.channel.type === "dm") return;
   if (message.author.type === "bot") return;
-    giveInfectionFunction(message); 
-    getInfectedFunction(message);
   const args = message.content.split(" ");
   const command = args[0];
   const cmd = CH.getCommand(command);
