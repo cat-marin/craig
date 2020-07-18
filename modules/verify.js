@@ -12,6 +12,6 @@ module.exports = class verify {
 			role => role.name === `${config.verifiedID}`
 		);
 		message.member.roles.add(roleName).catch(console.error);
-		message.channel.send(`Verified.`);
+		message.delete();
 	}
 }
