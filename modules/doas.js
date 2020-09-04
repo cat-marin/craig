@@ -65,7 +65,7 @@ module.exports = class doas {
                     embedFunction(action);
                 case 'stop': // doas stop 
                     const embed = new MessageEmbed()
-                        .setTitle("**Stop, Drop, and Role**")
+                        .setTitle("**Stop, Drop, and Roll**")
                         .setDescription("**Please drop the current discussion and move on, thanks!**")
                         .setThumbnail("https://i.imgur.com/HJoCgcw.png")
                     message.channel.send(embed);
