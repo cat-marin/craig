@@ -63,6 +63,11 @@ module.exports = class doas {
                     await message.guild.members.ban(member, reason);
                     message.channel.send(`Banned ${member}.`);
                     embedFunction(action);
+                case 'stop': // doas stop 
+                    const embed = new MessageEmbed()
+                        .setTitle("**Stop, Drop, and Role**")
+                        .setDescription("**Please drop the current discussion and move on, thanks!**")
+                    message.channel.send(embed);
 
                 default: // If there is no value to action, then return and send a message.
                     return message.channel.send("You must provide an argument")
