@@ -60,13 +60,14 @@ module.exports = class doas {
                 case 'ban': // Is it 'ban'?
                     if(!member) return message.channel.send("Who is being banned?");
                     if(!member.bannable) return message.channel.send("You cannot ban this user.");
-                    await message.guild.members.ban(member, reason);
+                    await message.guild.members.ban(member, reason);    
                     message.channel.send(`Banned ${member}.`);
                     embedFunction(action);
                 case 'stop': // doas stop 
                     const embed = new MessageEmbed()
                         .setTitle("**Stop, Drop, and Role**")
                         .setDescription("**Please drop the current discussion and move on, thanks!**")
+                        .setThumbnail("https://i.imgur.com/HJoCgcw.png")
                     message.channel.send(embed);
 
                 default: // If there is no value to action, then return and send a message.
