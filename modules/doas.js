@@ -80,7 +80,8 @@ module.exports = class doas {
                     break;
 
                 default: // If there is no value to action, then return.
-                    return message.channel.send("You must provide an argument.");
+                    return message.channel.send("Argument not found/recognized.");
+                    break;
             }
         }
     }
