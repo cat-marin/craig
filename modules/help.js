@@ -10,11 +10,11 @@ module.exports = class help {
   async run(client, message, args) {
     var helpConf = require("./comConfig/help.json");
     const com = args[1];
-    const notFound = new Discord.RichEmbed()
+    const notFound = new Discord.MessageEmbed()
       .setColor("#D00B00")
       .setTitle("Help")
       .addField("List", `${helpConf.list}`);
-    const helpEmbed = new Discord.RichEmbed()
+    const helpEmbed = new Discord.MessageEmbed()
       .setColor("#D00B00")
       .setTitle("Help")
       .addField(`${com}`, `${helpConf[com]}`);
