@@ -76,6 +76,7 @@ module.exports = class doas {
                         clearNum = parseInt(args[2]);
                     }
                     message.channel.bulkDelete(clearNum + 1, true);
+                    message.channel.send(`Deleted ${clearNum} messages.`);
                     break;
 
                 default: // If there is no value to action, then return.
