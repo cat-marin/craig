@@ -50,12 +50,14 @@ module.exports = class doas {
                     await(member.roles.add(muteRole).catch(console.error));
                     message.channel.send(`Muted ${member}.`);
                     embedFunction(action);
+                    break;
 
                 case 'unmute': // Is it 'unmute'?
                     if(member === undefined) return message.channel.send("Who is being unmuted?");
                     await(member.roles.remove(muteRole).catch(console.error));
                     message.channel.send(`Unmuted ${member}.`);
                     embedFunction(action);
+                    break;
 
                 case 'ban': // Is it 'ban'?
                     if(!member) return message.channel.send("Who is being banned?");
@@ -63,9 +65,21 @@ module.exports = class doas {
                     await message.guild.members.ban(member, reason);
                     message.channel.send(`Banned ${member}.`);
                     embedFunction(action);
+                    break;
+                
+                case 'clear':
+                    let clearNum;
+                    if (isNaN(args[2]) || parseInt(args[2]) <= 0) return message.channel.send("That isn't a number.");
+                    if (parseInt(args[2]) > 100) {
+                        message.channel.send("Due to API limitations, you can only delete 100 messages at a time.");
+                    } else {
+                        clearNum = parseInt(args[2]);
+                    }
+                    message.channel.bulkDelete(clearNum, true);
+                    break;
 
-                default: // If there is no value to action, then return and send a message.
-                    return message.channel.send("You must provide an argument")
+                default: // If there is no value to action, then return.
+                    return
             }
         }
     }
