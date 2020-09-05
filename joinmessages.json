@@ -4,7 +4,7 @@
         "useradd -m -g users -s /bin/bash $n",
         "$n joined the server.",
         "Fuck you $n",
-        "yeah, they suck pee... \n oh, speak of the devil! hi $n",
+        "oh, speak of the devil! hi $n",
         "why aren't you smiling, $n? the whole gang is here"
     ]
 
