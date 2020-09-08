@@ -9,25 +9,24 @@ module.exports = class doas {
     }
 
     async run(bot, message, args) {
-        function embedFunction() {
+        // Cute arrow function
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
+        const embedFunction = (action) => {
             let pUser = message.mentions.users.first() || message.guild.members.get(args[1]);
             let cUser = message.author;
             let logChannel = bot.channels.cache.get(config.logChannelID);
             let logEmbed = new Discord.MessageEmbed()
-                .setDescription(action)
+                .setDescription(`**${pUser} was ${action} by ${cUser}**`)
                 .setColor("#D00B00")
 
-                // We don't have to call addField() every time to add a field. We can just pass fields to the embed constructor using addFields()
-                .addFields(
-                    { name: `${action}:`, value: `${pUser} with id ${pUser.id}`},
-                    { name: `<@${cUser.tag}>`, value: `${reason}`},
-                    { name: "Time:", value: message.createdAt }
-                )
+                .addField(`Reason`, reason)
+                .setFooter(`User ID: ${pUser.id}`,pUser.avatarURL({type: 'png', dyanmic: true}))
+                .setTimestamp(message.createdAt)
 
             logChannel.send(logEmbed);
         }
         
-        // We do not need: if(message.member.permissions.has("MANAGE_MESSAGES") === true)
+        // We do not need if(message.member.permissions.has("MANAGE_MESSAGES") === true)
         // since it either a falsy value or a true value
 
         if(!message.member.permissions.has("MANAGE_MESSAGES")) return message.channel.send("You can't do that.");
@@ -49,14 +48,14 @@ module.exports = class doas {
                     if(member === undefined) return message.channel.send("Who is being muted?");
                     await(member.roles.add(muteRole).catch(console.error));
                     message.channel.send(`Muted ${member}.`);
-                    embedFunction(action);
+                    embedFunction('muted'); // We call the function the same way, except the 'action' parameter in the function gets set to the string
                     break;
 
                 case 'unmute': // Is it 'unmute'?
                     if(member === undefined) return message.channel.send("Who is being unmuted?");
                     await(member.roles.remove(muteRole).catch(console.error));
                     message.channel.send(`Unmuted ${member}.`);
-                    embedFunction(action);
+                    embedFunction('unmuted');
                     break;
 
                 case 'ban': // Is it 'ban'?
@@ -64,7 +63,7 @@ module.exports = class doas {
                     if(!member.bannable) return message.channel.send("You cannot ban this user.");
                     await message.guild.members.ban(member, reason);
                     message.channel.send(`Banned ${member}.`);
-                    embedFunction(action);
+                    embedFunction('banned');
                     break;
                 
                 case 'clear':
@@ -81,7 +80,6 @@ module.exports = class doas {
 
                 default: // If there is no value to action, then return.
                     return message.channel.send("Argument not found/recognized.");
-                    break;
             }
         }
     }
