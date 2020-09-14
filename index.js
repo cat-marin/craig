@@ -27,7 +27,7 @@ client.on("ready", () => {
 
 // join message
 client.on("guildMemberAdd", member => {
-    var message = joinmessages.joinmessage[Math.ceil(Math.random() * joinmessages.joinmessage.length)]
+    var message = joinmessages.joinmessage[Math.floor(Math.random() * joinmessages.joinmessage.length)]
     var finalmessage = message.replace(/\$n/g, member.user.toString())
     finalmessage = finalmessage.replace(/\$p/g, member.displayName.toString())
     member.guild.channels.cache.get(config.joinChannelID).send(finalmessage)
