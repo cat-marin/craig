@@ -61,7 +61,10 @@ module.exports = class doas {
                 case 'ban': // Is it 'ban'?
                     if(!member) return message.channel.send("Who is being banned?");
                     if(!member.bannable) return message.channel.send("You cannot ban this user.");
-                    await message.guild.members.ban(member, reason);
+		    // You were not getting a GuildMember object and were passing a straight User object for one. Secondly, ban() takes an option Object like ({reason: reason:}
+		    // You were passing a User object into the ban method, which won't work. Instead, we get the guildMember using guild.Member(member) and then use the ban() method with a reason
+		    // in an options Object and it works!
+                    await message.guild.member(member).ban({reason: reason}); 
                     message.channel.send(`Banned ${member}.`);
                     embedFunction('banned');
                     break;
