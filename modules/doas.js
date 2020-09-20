@@ -5,7 +5,6 @@ module.exports = {
 
     run: async(bot, message, args) => {
         try {
-            console.log(args)
             // Cute arrow function
             // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
             const embedFunction = (action) => {
