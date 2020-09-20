@@ -5,7 +5,6 @@ const helpConf = require("./comConfig/help.json");
 module.exports =  {
   run: async(client, message, args) => {
     try {
-      console.log(args)
       const com = args[0];
       const notFound = new MessageEmbed()
         .setColor("#D00B00")
