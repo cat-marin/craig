@@ -5,16 +5,11 @@ var token = require("./token.json"); // token file, you need this to bring the b
 var config = require("./config.json"); // config file, also necessary (should already be included)
 var joinmessages = require("./joinmessages.json"); // join messages file, necessary for join messages to work
 const { CommandHandler } = require("djs-commands");
-const CH = new CommandHandler({
-  folder: __dirname + "/modules/",
-  prefix: [`${config.prefix}`]
-});
+client.commands = new Discord.Collection();
+const prefix = config.prefix
+const fs = require('fs')
 
-function between(min, max) {
-    return Math.floor(
-        Math.random() * (max - min) + min
-    )
-}
+
 
 client.on("ready", () => {
   console.log(`logged in as ${client.user.tag}!`);
@@ -23,6 +18,7 @@ client.on("ready", () => {
   );
   client.user.setActivity(`${config.activity}`);
   console.log(`Set activity to "${config.activity}"`);
+  console.log(client.commands)
 });
 
 // join message
@@ -34,19 +30,65 @@ client.on("guildMemberAdd", member => {
     member.guild.channels.cache.get(config.joinChannelID).send(`Be sure to use <#624069649469800513> for support, and read the required reading to be verified.`)
 });
 
+
+const walk = (dir) => {
+  let results = [];
+  const list = fs.readdirSync(dir);
+  list.forEach(function(file) {
+    file = dir + '/' + file;
+    file_type = file.split(".").pop();
+    file_name = file.split(/(\\|\/)/g).pop();
+    const stat = fs.statSync(file);
+    if (stat && stat.isDirectory()) { 
+      results = results.concat(walk(file));
+    } 
+    else { 
+      if (file_type == "js") results.push(file);
+    }
+  });
+  return results;
+}
+
+const commandFiles = walk('./modules');
+
+for (const file of commandFiles) {
+  const command = require(`${file}`);
+  client.commands.set(command.name, command);
+}
+
+client.categories = fs.readdirSync("./modules/");
+
 // command handling start
 client.on("message", message => {
   if (message.channel.type === "dm") return;
-  if (message.author.type === "bot") return;
-  const args = message.content.split(" ");
-  const command = args[0];
-  const cmd = CH.getCommand(command);
-  if (!cmd) return;
+  if (message.author.bot) return
+  if (!message.content.startsWith(prefix)) return
+  let args = message.content.slice(prefix.length).split(/ +/);
+  let cmdName = args.shift();
 
+  const command = client.commands.get(cmdName)
+    || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(cmdName));
+
+  if (!command) return;
+
+  if (command.guildOnly && message.channel.type !== 'text') {
+    return message.reply('I can\'t execute that command inside DMs!');
+  }
+
+  if (command.argsReq && !args.length) {
+    let reply = `You didn't provide any arguments, ${message.author}!`;
+    if (command.usage) {
+      reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
+    }
+
+    return message.channel.send(reply);
+  }
   try {
-    cmd.run(client, message, args);
-  } catch (e) {
-    console.log(e);
+    command.run(client, message, args);
+  } 
+  catch (error) {
+    console.error(error);
+    message.reply('there was an error trying to execute that command!');
   }
 });
 // command handling end
