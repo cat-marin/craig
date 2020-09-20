@@ -5,16 +5,17 @@ var token = require("./token.json"); // token file, you need this to bring the b
 var config = require("./config.json"); // config file, also necessary (should already be included)
 var joinmessages = require("./joinmessages.json"); // join messages file, necessary for join messages to work
 const { CommandHandler } = require("djs-commands");
-const CH = new CommandHandler({
-  folder: __dirname + "/modules/",
-  prefix: [`${config.prefix}`]
-});
+// Needed to get commands
+const fs = require('fs')
 
-function between(min, max) {
-    return Math.floor(
-        Math.random() * (max - min) + min
-    )
-}
+
+// Create a new collection to store commnads
+client.commands = new Discord.Collection();
+
+// declare prefix from config.json
+const prefix = config.prefix
+
+
 
 client.on("ready", () => {
   console.log(`logged in as ${client.user.tag}!`);
@@ -23,6 +24,9 @@ client.on("ready", () => {
   );
   client.user.setActivity(`${config.activity}`);
   console.log(`Set activity to "${config.activity}"`);
+  // during the editing of commands to accomidate the new handler, its useful that we can see the collection to make sure 
+  // commands are being registered
+  console.log(client.commands)
 });
 
 // join message
@@ -34,19 +38,79 @@ client.on("guildMemberAdd", member => {
     member.guild.channels.cache.get(config.joinChannelID).send(`Be sure to use <#624069649469800513> for support, and read the required reading to be verified.`)
 });
 
+// walk function; this recursively gets .js files and adds to an array
+const walk = (dir) => {
+  let results = [];
+  const list = fs.readdirSync(dir);
+  list.forEach(function(file) {
+    file = dir + '/' + file;
+    file_type = file.split(".").pop();
+    file_name = file.split(/(\\|\/)/g).pop();
+    const stat = fs.statSync(file);
+    if (stat && stat.isDirectory()) { 
+      results = results.concat(walk(file));
+    } 
+    else { 
+      if (file_type == "js") results.push(file);
+    }
+  });
+  return results;
+}
+
+// call walk() and set the array to commandFiles
+const commandFiles = walk('./modules');
+
+// require commands as modules and set their names 
+for (const file of commandFiles) {
+  const command = require(`${file}`);
+  client.commands.set(command.name, command);
+}
+
+// get categories if applicable 
+client.categories = fs.readdirSync("./modules/");
+
 // command handling start
 client.on("message", message => {
   if (message.channel.type === "dm") return;
-  if (message.author.type === "bot") return;
-  const args = message.content.split(" ");
-  const command = args[0];
-  const cmd = CH.getCommand(command);
-  if (!cmd) return;
+  // if user is bot, ignore
+  if (message.author.bot) return
+  // if a message does NOT start with prefix, ignore it 
+  if (!message.content.startsWith(prefix)) return
+  // args in an array ['command', '1', '2',...]
+  let args = message.content.slice(prefix.length).split(/ +/);
+  // remove the first element in args array ['command'] and make it the command name 
+  let cmdName = args.shift();
+  // first, see if the issued command is the actual name of the command, if not see if its an alias
+  const command = client.commands.get(cmdName)
+    || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(cmdName));
 
+  // if neither conditions from above comment are meant, ignore it
+  if (!command) return;
+
+  // If DMs are disabled for a particular command, send something to the user
+  if (command.guildOnly && message.channel.type !== 'text') {
+    return message.reply('I can\'t execute that command inside DMs!');
+  }
+
+  // If args are required for a command and none are supplied, say something
+  if (command.argsReq && !args.length) {
+    let reply = `You didn't provide any arguments, ${message.author}!`;
+    // Also send the command usage if set
+    if (command.usage) {
+      reply += `\nThe proper usage would be: ${command.usage}`;
+    }
+    // send the reply
+    return message.channel.send(reply);
+  }
   try {
-    cmd.run(client, message, args);
-  } catch (e) {
-    console.log(e);
+    // if *everything* checks out, run the "run" in the command file and pass the client, the message sent by the author
+    // and the args array
+    command.run(client, message, args);
+  } 
+  // if theres an error for some reason in the handler, console.error it and say something to the user
+  catch (error) {
+    console.error(error);
+    message.reply('there was an error trying to execute that command!');
   }
 });
 // command handling end

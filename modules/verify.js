@@ -1,17 +1,22 @@
 const config = require("../config.json");
 
-module.exports = class verify {
-	constructor() {
-		(this.name = "verify"),
-			(this.alias = ["verify"]),
-			(this.usage = `${config.prefix}verify`);
-	}
-
-	async run(client, message, args) {
+module.exports = {
+  run: async(client, message, args) => {
+	try {			
 		const roleName = message.guild.roles.cache.find(
-			role => role.name === `${config.verifiedID}`
+			role => role.name === (`${config.verifiedID}`)
 		);
-		message.member.roles.add(roleName).catch(console.error);
-		message.delete();
+		await message.member.roles.add(roleName).catch(console.error);
+		await message.delete();
 	}
+	catch (error) {
+		console.error(error)
+	}
+  },
+  name: 'verify', // Name of the command, the command handler uses this (required)
+  category: 'utilities', // The category, it must match the subdir (optional)
+  argsReq: false, // Are arguments required? (optional)
+  aliases: ['confirm'], // Aliases? (optional)
+  description: "Verifies a user.", // Description for help command (optional)
+  usage: "`verify`" // usage for help command (optional)
 }

@@ -1,24 +1,27 @@
-var config = require("../config.json");
-const Discord = require("discord.js");
-module.exports = class help {
-  constructor() {
-    (this.name = "help"),
-      (this.alias = ["h"]),
-      (this.usage = `${config.prefix}help`);
-  }
+const config = require("../config.json");
+const { MessageEmbed } = require("discord.js");
+const helpConf = require("./comConfig/help.json");
 
-  async run(client, message, args) {
-    var helpConf = require("./comConfig/help.json");
-    const com = args[1];
-    const notFound = new Discord.MessageEmbed()
-      .setColor("#D00B00")
-      .setTitle("Help")
-      .addField("List", `${helpConf.list}`);
-    const helpEmbed = new Discord.MessageEmbed()
-      .setColor("#D00B00")
-      .setTitle("Help")
-      .addField(`${com}`, `${helpConf[com]}`);
-    if (helpConf[com] === undefined) return message.channel.send(notFound);
-    if (helpConf[com] != undefined) return message.channel.send(helpEmbed);
-  }
-};
+module.exports =  {
+  run: async(client, message, args) => {
+    try {
+      console.log(args)
+      const com = args[0];
+      const notFound = new MessageEmbed()
+        .setColor("#D00B00")
+        .setTitle("Help")
+        .addField("List", `${helpConf.list}`);
+      const helpEmbed = new MessageEmbed()
+        .setColor("#D00B00")
+        .setTitle("Help")
+        .addField(`${com}`, `${helpConf[com]}`);
+      if (helpConf[com] === undefined) return message.channel.send(notFound);
+      if (helpConf[com] != undefined) return message.channel.send(helpEmbed);
+    }
+    catch (error) {
+      await message.channel.send(`\`${error}\``)
+    }
+},
+name: 'help', // Name of command | this is used for issuing the command(required)
+aliases: ['h'], // Put aliases here (optinal)
+}
