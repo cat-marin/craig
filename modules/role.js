@@ -1,47 +1,46 @@
 const config = require("../config.json");
+var roleFile = require("./comConfig/role.json");
 
-module.exports = class role {
-  constructor() {
-    (this.name = "role"),
-      (this.alias = ["r"]),
-      (this.usage = `${config.prefix}role`);
-  }
-
-  async run(client, message, args) {
-    var roleFile = require("./comConfig/role.json");
-    const action = args[1];
-    const roleObject = args[2];
-    const roleName = message.guild.roles.cache.find(
-      role => role.name === `${roleObject}`
+module.exports = {
+  run: async(client, message, args) => {
+    const action = args[0];
+    const roleName = args[1];
+    const roleObject = message.guild.roles.cache.find(
+      role => role.name === `${roleName}`
     );
-    if (action === undefined)
-      return message.channel.send("You must supply an action (add/remove)");
-    //        if(roleObject === undefined) return message.channel.send("You must supply a role name.");
+    
+    switch (action) {
+      case 'add':
+        if (!roleName) return message.channel.send("You must supply a role name.");
+        
+        var whitelist = Object.values(roleFile).slice(1)
+        if (!whitelist.includes(roleName)) return message.channel.send("Role not found")
 
-    //        if(!roleFile[roleObject]) return message.channel.send("Role not found.");
+        if (message.member.roles.cache.find(role => role.name === `${roleName}`)) {
+          message.channel.send(`You are already in ${roleName}.`);
+        } 
+        else {
+          message.member.roles.add(roleObject).catch(console.error);
+          message.channel.send(`You were added to ${roleName}.`);
+        }
+        break;
 
-    if (action === "add") {
-      if (roleObject === undefined)
+      case 'remove':
+        if (!roleName)
         return message.channel.send("You must supply a role name.");
-      if (!roleFile[roleObject]) return message.channel.send("Role not found.");
-      if (message.member.roles.cache.find(role => role.name === `${roleObject}`)) {
-        message.channel.send(`You are already in ${roleObject}.`);
-      } else {
-        message.member.roles.add(roleName).catch(console.error);
-        message.channel.send(`You were added to ${roleObject}.`);
-      }
-    }
+        var whitelist = Object.values(roleFile).slice(1)
+        if (!whitelist.includes(roleName)) return message.channel.send("Role not found")
+        message.member.roles.remove(roleObject).catch(console.error);
+        message.channel.send(`You were removed from ${roleName}.`);
+        break;
 
-    if (action === "remove") {
-      if (roleObject === undefined)
-        return message.channel.send("You must supply a role name.");
-      if (!roleFile[roleObject]) return message.channel.send("Role not found.");
-      message.member.roles.remove(roleName).catch(console.error);
-      message.channel.send(`You were removed from ${roleObject}.`);
-    }
+      case 'list':
+        return message.channel.send(`${roleFile.list}`);
 
-    if (action === "list") {
-      message.channel.send(`${roleFile.list}`);
+      default:
+        return message.channel.send("You must supply an action (add/remove)");
     }
-  }
+  },
+  name: 'role', // Name of the command, the command handler uses this (required)
+
 };
