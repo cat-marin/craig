@@ -74,7 +74,7 @@ module.exports = {
                         } else {
                             clearNum = parseInt(args[1]);
                         }
-                        message.channel.bulkDelete(clearNum + 1, true);
+                        message.channel.bulkDelete(clearNum, true);
                         message.channel.send(`Deleted ${clearNum} messages.`);
                         break;
 
