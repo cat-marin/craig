@@ -77,9 +77,11 @@ module.exports = {
                         if (isNaN(args[1]) || parseInt(args[2]) <= 0) return message.channel.send("That isn't a number.");
                         if (parseInt(args[1]) > 100) {
                             message.channel.send("Due to API limitations, you can only delete 100 messages at a time.");
-                        } 
-                        else clearNum = parseInt(args[1]);
-                        message.channel.bulkDelete(clearNum + 1, true);
+                          
+                        } else {
+                            clearNum = parseInt(args[1]);
+                        }
+                        message.channel.bulkDelete(clearNum, true);
                         message.channel.send(`Deleted ${clearNum} messages.`);
                         break;
 

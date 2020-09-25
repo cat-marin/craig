@@ -3,3 +3,5 @@ config.json
 modules/comConfig/help.json
 modules/comConfig/role.json
 node_modules/
+logs/
+start.sh
