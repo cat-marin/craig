@@ -38,16 +38,17 @@ module.exports = {
                 switch (action) { // Here we are "switching" a function. The function in this case is getting the value of action
 
                     case 'mute': // Is it 'mute'?
-                        if(!member) return message.channel.send("Who is being muted?");
+                        if(!member.first()) return message.channel.send("Who is being muted?");
                         member.forEach(x => x.roles.add(muteRole).catch(console.error).then(
                             names.push(`<@!${x.id}>`),
                         ));
+                        console.log(member)
                         message.channel.send(`Muted ${names.join(', ')}.`)
                         embedFunction('muted', names); // We call the function the same way, except the 'action' parameter in the function gets set to the string
                         break;
 
                     case 'unmute': // Is it 'unmute'?
-                        if(!member) return message.channel.send("Who is being unmuted?");
+                        if(!member.first()) return message.channel.send("Who is being unmuted?");
                         member.forEach(x => x.roles.remove(muteRole).catch(console.error).then(
                             names.push(`<@!${x.id}>`),
 
@@ -57,7 +58,7 @@ module.exports = {
                         break;
 
                     case 'ban': // Is it 'ban'?
-                        if(!member) return message.channel.send("Who is being banned?");
+                        if(!member.first()) return message.channel.send("Who is being banned?");
                         member.forEach(x => {
                             if (!x.bannable) return message.channel.send("You cannot ban this user.");
                         });                       
