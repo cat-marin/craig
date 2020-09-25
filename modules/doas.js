@@ -4,6 +4,7 @@ const config = require("../config.json");
 module.exports = {
 
     run: async(bot, message, args) => {
+        try {
             // Cute arrow function
             // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
             const embedFunction = (action, names) => {
@@ -84,6 +85,10 @@ module.exports = {
                     default: // If there is no value to action, then return.
                         return message.channel.send("Argument not found/recognized.");
                 }
+            }
+            catch (error) {
+                await message.channel.send(error)
+            }
 
         },
         name: 'doas', // Name of the command, the command handler uses this (required)
