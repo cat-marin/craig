@@ -15,7 +15,6 @@ module.exports = {
         
         var whitelist = Object.values(roleFile).slice(1)
         let role = message.guild.roles.cache.find(role => role.name === roleName)
-        console.log(whitelist)
         
         if (!message.guild.roles.cache.find(role => role.name === roleName)) return message.channel.send("Role not found")
         if (!whitelist.includes(roleName)) return message.channel.send("That role is not self-assignable")
