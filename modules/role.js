@@ -14,7 +14,10 @@ module.exports = {
         if (!roleName) return message.channel.send("You must supply a role name.");
         
         var whitelist = Object.values(roleFile).slice(1)
-        if (whitelist.includes(roleName) === undefined) return message.channel.send("Role not found")
+        let role = message.guild.roles.cache.find(role => role.name === roleName)
+        
+        if (!message.guild.roles.cache.find(role => role.name === roleName)) return message.channel.send("Role not found")
+        if (!whitelist.includes(roleName)) return message.channel.send("That role is not self-assignable")
 
         if (message.member.roles.cache.find(role => role.name === `${roleName}`)) {
           message.channel.send(`You are already in ${roleName}.`);
@@ -29,7 +32,10 @@ module.exports = {
         if (!roleName)
         return message.channel.send("You must supply a role name.");
         var whitelist = Object.values(roleFile).slice(1)
-        if (whitelist.includes(roleName) === undefined) return message.channel.send("Role not found")
+        
+        if (!message.guild.roles.cache.find(role => role.name === roleName)) return message.channel.send("Role not found")
+        if (!whitelist.includes(roleName)) return message.channel.send("That role is not self-assignable")
+
         message.member.roles.remove(roleObject).catch(console.error);
         message.channel.send(`You were removed from ${roleName}.`);
         break;
@@ -42,5 +48,4 @@ module.exports = {
     }
   },
   name: 'role', // Name of the command, the command handler uses this (required)
-
 };
