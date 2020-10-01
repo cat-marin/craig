@@ -1,5 +1,5 @@
 const config = require("../config.json");
-var roleFile = require("./comConfig/role.json");
+const roleFile = require("./comConfig/role.json");
 
 module.exports = {
   run: async(client, message, args) => {
@@ -14,7 +14,7 @@ module.exports = {
         if (!roleName) return message.channel.send("You must supply a role name.");
         
         var whitelist = Object.values(roleFile).slice(1)
-        if (!whitelist.includes(roleName)) return message.channel.send("Role not found")
+        if (whitelist.includes(roleName) === undefined) return message.channel.send("Role not found")
 
         if (message.member.roles.cache.find(role => role.name === `${roleName}`)) {
           message.channel.send(`You are already in ${roleName}.`);
@@ -29,7 +29,7 @@ module.exports = {
         if (!roleName)
         return message.channel.send("You must supply a role name.");
         var whitelist = Object.values(roleFile).slice(1)
-        if (!whitelist.includes(roleName)) return message.channel.send("Role not found")
+        if (whitelist.includes(roleName) === undefined) return message.channel.send("Role not found")
         message.member.roles.remove(roleObject).catch(console.error);
         message.channel.send(`You were removed from ${roleName}.`);
         break;
