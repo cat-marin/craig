@@ -11,9 +11,9 @@ module.exports = {
                 let cUser = message.author;
                 let logChannel = bot.channels.cache.get(config.logChannelID);
                 let logEmbed = new Discord.MessageEmbed()
-                    .setDescription(`**${names.join(', ')} was ${action} by ${cUser}**`)
+                    .setDescription(`${names.join(', ')} **was ${action} by ${cUser}**`)
                     .setColor("#D00B00")
-                    .addField(`Reason`, reason)
+                    .addField(`Reason`, reason || 'Reason not provided.')
                     .setTimestamp(message.createdAt)
 
                 logChannel.send(logEmbed);
@@ -66,7 +66,7 @@ module.exports = {
                         // You were passing a User object into the ban method, which won't work. Instead, we get the guildMember using guild.Member(member) and then use the ban() method with a reason
                         // in an options Object and it works!
                         member.forEach(x => x.ban({reason: reason}).catch(console.error).then(
-                            names.push(`${x.user.tag}`),
+                            names.push(`**${x.user.tag}**`),
                         ));
                         message.channel.send(`Banned ${names.join(', ')}.`);
                         embedFunction('banned', names);
