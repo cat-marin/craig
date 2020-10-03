@@ -9,11 +9,12 @@ module.exports = {
       role => role.name === `${roleName}`
     );
     
+    let whitelist = Object.keys(roleFile).slice(1)
+    
     switch (action) {
       case 'add':
         if (!roleName) return message.channel.send("You must supply a role name.");
         
-        let whitelist = Object.keys(roleFile).slice(1)
         let role = message.guild.roles.cache.find(role => role.name === roleName)
 
         if (!message.guild.roles.cache.find(role => role.name === roleName)) return message.channel.send("Role not found")
@@ -30,8 +31,7 @@ module.exports = {
       case 'remove':
         if (!roleName)
         return message.channel.send("You must supply a role name.");
-        var whitelist = Object.values(roleFile).slice(1)
-        
+
         if (!message.guild.roles.cache.find(role => role.name === roleName)) return message.channel.send("Role not found")
         if (!whitelist.includes(roleName)) return message.channel.send("That role is not self-assignable")
 
