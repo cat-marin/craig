@@ -11,9 +11,9 @@ module.exports = {
                 let cUser = message.author;
                 let logChannel = bot.channels.cache.get(config.logChannelID);
                 let logEmbed = new Discord.MessageEmbed()
-                    .setDescription(`**${names.join(', ')} was ${action} by ${cUser}**`)
+                    .setDescription(`${names.join(', ')} **was ${action} by ${cUser}**`)
                     .setColor("#D00B00")
-                    .addField(`Reason`, reason)
+                    .addField(`Reason`, reason || 'Reason not provided.')
                     .setTimestamp(message.createdAt)
 
                 logChannel.send(logEmbed);
