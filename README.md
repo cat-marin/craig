@@ -4,6 +4,7 @@ A shitty discord bot for our server, the nixfits
 
 # Dependencies
 - discord.js
+- node.js version 14
 
 # Installation
 These steps are fairly simple to follow. While Craig is mainly for our server (The Nixfits), he is super simple to use for your own server, or for testing and adding features for The Nixfits.
