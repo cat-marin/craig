@@ -91,6 +91,28 @@ client.on("message", message => {
   if (command.guildOnly && message.channel.type !== 'text') {
     return message.reply('I can\'t execute that command inside DMs!');
   }
+  
+  // Bump reminder
+  if (message.content === '!d bump') {
+		message.reply('If the bump was successful, please use `!rb` to set a reminder to bump again')
+	}
+
+	if (message.content === '!rb') {
+		const authorMention = "<@" + message.author.id + ">";
+		message.channel.send(`${authorMention} You will be pinged to bump again in 2 hours`)
+
+        const timerEndEmbed = new Discord.MessageEmbed()
+            .setColor("RANDOM")
+            .setAuthor(message.author.username, message.author.avatarURL())
+            .setTitle("REMINDER:")
+            .addField('Message:','BUMP TIME!', true)
+            .setTimestamp()
+        
+        setTimeout(function() {
+            message.channel.send(`${authorMention} PING PONG!`,timerEndEmbed)
+        }, 7200000)
+
+	}
 
   // If args are required for a command and none are supplied, say something
   if (command.argsReq && !args.length) {
