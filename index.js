@@ -86,7 +86,9 @@ client.on("message", message => {
 
   // if neither conditions from above comment are meant, ignore it
   if (!command) return;
-
+  if (message.content === '!d bump') {
+	message.reply('If the bump was successful, please use `!rb` to set a reminder to bump again')
+  }
   // If DMs are disabled for a particular command, send something to the user
   if (command.guildOnly && message.channel.type !== 'text') {
     return message.reply('I can\'t execute that command inside DMs!');
